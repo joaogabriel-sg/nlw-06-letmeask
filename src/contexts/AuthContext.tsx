@@ -23,7 +23,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 	const [user, setUser] = useState<User>();
 
 	useEffect(() => {
-		// VERIFY IF HAVE A LOGIN CREATED FOR THE USER
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			if (user) {
 				const { displayName, photoURL, uid } = user;
@@ -36,18 +35,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 			}
 		});
 
-		// WHEN I'VE EVENT LISTENERS, I NEED TO RETURN A CLEAR FUNCTION
-		// THAT REMOVES EVENT LISTENERS BECAUSE SIDE EFFECTS CAN OCCUR IN OUR APP
 		return () => {
 			unsubscribe();
 		};
 	}, []);
 
 	async function signInWithGoogle() {
-		// CREATE GOOGLE AUTHENTICATION
 		const provider = new firebase.auth.GoogleAuthProvider();
 
-		// SIGN INT WITH GOOGLE ACCOUNT IN A POPUP
 		const result = await auth.signInWithPopup(provider);
 
 		if (result.user) {
